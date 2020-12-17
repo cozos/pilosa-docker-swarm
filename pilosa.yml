@@ -9,7 +9,6 @@ services:
             replicas: 1
             endpoint_mode: dnsrr
         command: [
-            'pilosa',
             'server',
             '--advertise="0.0.0.0:15001',
             '--cluster.coordinator=true',
@@ -43,17 +42,11 @@ services:
                 max_replicas_per_node: 1
             endpoint_mode: dnsrr
         command: [
-            'pilosa',
             'server',
             '--advertise="0.0.0.0:15001',
             '--gossip.seeds=\"pilosa_workers:15001,pilosa_coordinator:15001\"',
             '--data-dir=\"/opt/pilosa/data\"'
         ]
-        ulimits:
-          nproc: 655350
-          nofile:
-            soft: 102400
-            hard: 409600
         volumes:
             - /mnt:/opt/pilosa/data
         ports:
