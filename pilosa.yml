@@ -1,0 +1,77 @@
+version: '3.7'
+
+services:
+    pilosa_nodes:
+        image: pilosa/pilosa:latest
+        networks:
+        - pilosanetwork
+        deploy:
+            replicas: ${NUM_WORKERS}
+            endpoint_mode: dnsrr
+        command: [
+            "pilosa",
+            "server",
+            "--advertise="0.0.0.0:15001",
+            "--cluster.coordinator=true",
+            "--gossip.seeds=${WORKER_ELB_HOST}:15001"
+        ]
+        ulimits:
+          nproc: 655350
+          nofile:
+            soft: 102400
+            hard: 409600
+        volumes:
+            - /mnt0:/opt/pilosa/data1
+            - /mnt1:/opt/pilosa/data2
+        ports:
+          - target: 10101
+            published: 10101
+            protocol: tcp
+            mode: host
+          - target: 11101
+            published: 11101
+            protocol: tcp
+            mode: host
+          - target: 15001
+            published: 15001
+            protocol: tcp
+            mode: host
+    pilosa_coordinator:
+        image: pilosa/pilosa:latest
+        networks:
+        - pilosanetwork
+        deploy:
+            replicas: 1
+            endpoint_mode: dnsrr
+        command: [
+            "pilosa",
+            "server",
+            "--advertise="0.0.0.0:15001",
+            "--gossip.seeds=${LEADER_ELB_HOST}:15001,${WORKER_ELB_HOST}:15001"
+        ]
+        ulimits:
+          nproc: 655350
+          nofile:
+            soft: 102400
+            hard: 409600
+        volumes:
+            - /mnt0:/opt/pilosa/data1
+            - /mnt1:/opt/pilosa/data2
+        ports:
+          - target: 10101
+            published: 10101
+            protocol: tcp
+            mode: host
+          - target: 11101
+            published: 11101
+            protocol: tcp
+            mode: host
+          - target: 15001
+            published: 15001
+            protocol: tcp
+            mode: host
+
+networks:
+    pilosanetwork:
+        driver: overlay
+        attachable: true
