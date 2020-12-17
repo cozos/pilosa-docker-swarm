@@ -1,22 +1,20 @@
 version: '3.7'
 
 services:
-    pilosa_nodes:
+    pilosa_coordinator:
         image: pilosa/pilosa:latest
         networks:
         - pilosanetwork
         deploy:
-            replicas: ${NUM_WORKERS}
+            replicas: 1
             endpoint_mode: dnsrr
-            placement:
-              constraints:
-                - "node.role==manager"
         command: [
             "pilosa",
             "server",
             "--advertise="0.0.0.0:15001",
             "--cluster.coordinator=true",
-            "--gossip.seeds=${WORKER_ELB_HOST}:15001"
+            "--gossip.seeds=\"pilosa_workers:15001\"",
+            "--data-dir=\"/opt/pilosa/data\""
         ]
         ulimits:
           nproc: 655350
@@ -24,8 +22,7 @@ services:
             soft: 102400
             hard: 409600
         volumes:
-            - /mnt0:/opt/pilosa/data1
-            - /mnt1:/opt/pilosa/data2
+            - /mnt:/opt/pilosa/data
         ports:
           - target: 10101
             published: 10101
@@ -39,18 +36,23 @@ services:
             published: 15001
             protocol: tcp
             mode: host
-    pilosa_coordinator:
+    pilosa_workers:
         image: pilosa/pilosa:latest
         networks:
         - pilosanetwork
+        depends_on:
+        - pilosa_coordinator
         deploy:
-            replicas: 1
+            replicas: ${NUM_WORKERS}
+            placement:
+                max_replicas_per_node: 1
             endpoint_mode: dnsrr
         command: [
             "pilosa",
             "server",
-            "--advertise="0.0.0.0:15001",
-            "--gossip.seeds=${LEADER_ELB_HOST}:15001,${WORKER_ELB_HOST}:15001"
+            "--advertise=\"0.0.0.0:15001\"",
+            "--gossip.seeds=\"pilosa_coordinator:15001,pilosa_workers:15001\"",
+            "--data-dir=\"/opt/pilosa/data\""
         ]
         ulimits:
           nproc: 655350
@@ -58,8 +60,7 @@ services:
             soft: 102400
             hard: 409600
         volumes:
-            - /mnt0:/opt/pilosa/data1
-            - /mnt1:/opt/pilosa/data2
+            - /mnt:/opt/pilosa/data
         ports:
           - target: 10101
             published: 10101
