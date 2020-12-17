@@ -11,10 +11,7 @@ services:
         command: [
             "pilosa",
             "server",
-            "--advertise="0.0.0.0:15001",
-            "--cluster.coordinator=true",
-            '--gossip.seeds="pilosa_workers:15001"',
-            '--data-dir="/opt/pilosa/data"'
+            "--cluster.coordinator=true"
         ]
         ulimits:
           nproc: 655350
@@ -49,10 +46,7 @@ services:
             endpoint_mode: dnsrr
         command: [
             "pilosa",
-            "server",
-            "--advertise="0.0.0.0:15001",
-            '--gossip.seeds="pilosa_workers:15001,pilosa_coordinator:15001"',
-            '--data-dir="/opt/pilosa/data"'
+            "server"
         ]
         ulimits:
           nproc: 655350
