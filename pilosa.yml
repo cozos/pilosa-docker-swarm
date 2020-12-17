@@ -8,6 +8,9 @@ services:
         deploy:
             replicas: ${NUM_WORKERS}
             endpoint_mode: dnsrr
+            placement:
+              constraints:
+                - "node.role==manager"
         command: [
             "pilosa",
             "server",
