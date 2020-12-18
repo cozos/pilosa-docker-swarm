@@ -11,9 +11,10 @@ services:
         command: [
             'server',
             '--cluster.coordinator=true',
-            '--bind=localhost:10101',
-            '--gossip.port=10101',
-            '--gossip.seeds=pilosa_workers:10101',
+            '--bind=0.0.0.0:10101',
+            '--advertise=0.0.0.0:15001'
+            '--gossip.port=11101',
+            '--gossip.seeds=pilosa_workers:11101',
             '--data-dir=/opt/pilosa/data'
         ]
         volumes:
@@ -45,8 +46,10 @@ services:
         command: [
             'server',
             '--bind=localhost:10101',
-            '--gossip.port=10101',
-            '--gossip.seeds=pilosa_workers:10101,pilosa_coordinator:10101',
+            '--advertise=0.0.0.0:15001'
+            '--gossip.port=11101',
+            '--gossip.seeds=pilosa_workers:11101',
+            '--gossip.seeds=pilosa_workers:11101,pilosa_coordinator:11101',
             '--data-dir=/opt/pilosa/data'
         ]
         volumes:
