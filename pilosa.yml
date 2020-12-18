@@ -10,9 +10,10 @@ services:
             endpoint_mode: dnsrr
         command: [
             'server',
-            '--bind=localhost:10101',
             '--cluster.coordinator=true',
-            '--gossip.seeds=pilosa_workers:15001',
+            '--bind=localhost:10101',
+            '--gossip.port=10101',
+            '--gossip.seeds=pilosa_workers:10101',
             '--data-dir=/opt/pilosa/data'
         ]
         volumes:
@@ -44,7 +45,8 @@ services:
         command: [
             'server',
             '--bind=localhost:10101',
-            '--gossip.seeds=pilosa_workers:15001,pilosa_coordinator:15001',
+            '--gossip.port=10101',
+            '--gossip.seeds=pilosa_workers:10101,pilosa_coordinator:10101',
             '--data-dir=/opt/pilosa/data'
         ]
         volumes:
