@@ -12,7 +12,7 @@ services:
             'server',
             '--cluster.coordinator=true',
             '--bind=0.0.0.0:10101',
-            '--advertise=0.0.0.0:15001'
+            '--advertise=0.0.0.0:15001',
             '--gossip.port=11101',
             '--gossip.seeds=pilosa_workers:11101',
             '--data-dir=/opt/pilosa/data'
@@ -46,7 +46,7 @@ services:
         command: [
             'server',
             '--bind=localhost:10101',
-            '--advertise=0.0.0.0:15001'
+            '--advertise=0.0.0.0:15001',
             '--gossip.port=11101',
             '--gossip.seeds=pilosa_workers:11101',
             '--gossip.seeds=pilosa_workers:11101,pilosa_coordinator:11101',
