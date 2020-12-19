@@ -1,7 +1,7 @@
 version: '3.8'
 
 services:
-    pilosa_coordinator:
+    pilosa-coordinator:
         image: pilosa/pilosa:latest
         networks:
         - pilosanetwork
@@ -14,7 +14,6 @@ services:
             '--bind=0.0.0.0:10101',
             '--advertise=0.0.0.0:15001',
             '--gossip.port=11101',
-            '--gossip.seeds=pilosa_workers:11101',
             '--data-dir=/opt/pilosa/data'
         ]
         volumes:
@@ -32,12 +31,12 @@ services:
             published: 15001
             protocol: tcp
             mode: host
-    pilosa_workers:
+    pilosa-workers:
         image: pilosa/pilosa:latest
         networks:
         - pilosanetwork
         depends_on:
-        - pilosa_coordinator
+        - pilosa-coordinator
         deploy:
             replicas: ${NUM_WORKERS}
             placement:
@@ -45,11 +44,10 @@ services:
             endpoint_mode: dnsrr
         command: [
             'server',
-            '--bind=localhost:10101',
+            '--bind=0.0.0.0:10101',
             '--advertise=0.0.0.0:15001',
             '--gossip.port=11101',
-            '--gossip.seeds=pilosa_workers:11101',
-            '--gossip.seeds=pilosa_workers:11101,pilosa_coordinator:11101',
+            '--gossip.seeds=pilosa-coordinator:11101,pilosa-workers:11101',
             '--data-dir=/opt/pilosa/data'
         ]
         volumes:
