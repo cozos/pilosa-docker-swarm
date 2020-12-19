@@ -13,7 +13,8 @@ MY_HOSTNAME=`hostname -i`
 # done
 
 ./pilosa server \
-    --cluster.coordinator=true \
+    --cluster.coordinator=false \
+    --cluster.replicas=3 \
     --bind=0.0.0.0:10101 \
     --gossip.seeds=pilosa-leader:11101 \
     --gossip.advertise-host=$MY_HOSTNAME \

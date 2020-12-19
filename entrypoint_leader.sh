@@ -2,6 +2,7 @@
 
 ./pilosa server \
     --cluster.coordinator=true \
+    --cluster.replicas=3 \
     --bind=0.0.0.0:10101 \
     --gossip.advertise-host=`hostname -i` \
     --gossip.advertise-port=11101 \
