@@ -2,7 +2,6 @@ version: '3.8'
 
 services:
     pilosa-leader:
-        image: pilosa/pilosa:latest
         networks:
         - pilosanetwork
         deploy:
@@ -25,7 +24,6 @@ services:
             protocol: tcp
             mode: host
     pilosa-workers:
-        image: pilosa/pilosa:latest
         networks:
         - pilosanetwork
         depends_on:
