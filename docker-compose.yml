@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
     pilosa-leader:
-        image: audience-pilosa:latest
+        image: 771945457201.dkr.ecr.us-west-2.amazonaws.com/audience-pilosa:latest
         networks:
         - pilosanetwork
         deploy:
@@ -25,7 +25,7 @@ services:
             protocol: tcp
             mode: host
     pilosa-workers:
-        image: audience-pilosa:latest
+        image: 771945457201.dkr.ecr.us-west-2.amazonaws.com/audience-pilosa:latest
         networks:
         - pilosanetwork
         depends_on:
