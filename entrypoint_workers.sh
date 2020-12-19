@@ -12,7 +12,7 @@ for NODE in $(dig +short pilosa-workers); do
     fi
 done
 
-pilosa server \
+./pilosa server \
     --cluster.coordinator=true \
     --bind=0.0.0.0:10101 \
     --gossip.seeds=pilosa-leader:11101,$OTHER_WORKER_HOSTNAME:11101 \

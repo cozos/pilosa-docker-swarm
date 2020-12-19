@@ -1,6 +1,6 @@
 #!/usr/bin/env sh
 
-pilosa server \
+./pilosa server \
     --cluster.coordinator=true \
     --bind=0.0.0.0:10101 \
     --gossip.advertise-host=`hostname -i` \
