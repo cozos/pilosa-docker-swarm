@@ -12,7 +12,7 @@ services:
             'server',
             '--cluster.coordinator=true',
             '--bind=0.0.0.0:10101',
-            '--advertise=0.0.0.0:15001',
+            '--gossip.advertise-port=15001',
             '--gossip.port=11101',
             '--data-dir=/opt/pilosa/data'
         ]
@@ -45,7 +45,7 @@ services:
         command: [
             'server',
             '--bind=0.0.0.0:10101',
-            '--advertise=0.0.0.0:15001',
+            '--gossip.advertise-port=15001',
             '--gossip.port=11101',
             '--gossip.seeds=pilosa-coordinator:11101,pilosa-workers:11101',
             '--data-dir=/opt/pilosa/data'
