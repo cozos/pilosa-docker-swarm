@@ -16,6 +16,7 @@ MY_HOSTNAME=`hostname -i`
     --cluster.coordinator=false \
     --cluster.replicas=3 \
     --bind=0.0.0.0:10101 \
+    --advertise=`hostname -i`:10101 \
     --gossip.seeds=pilosa-leader:11101 \
     --gossip.advertise-host=$MY_HOSTNAME \
     --gossip.advertise-port=11101 \

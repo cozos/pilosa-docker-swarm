@@ -14,15 +14,12 @@ services:
         ports:
           - target: 10101
             published: 10101
-            protocol: tcp
             mode: host
           - target: 11101
             published: 11101
-            protocol: tcp
             mode: host
           - target: 15001
             published: 15001
-            protocol: tcp
             mode: host
     pilosa-workers:
         image: 771945457201.dkr.ecr.us-west-2.amazonaws.com/audience-pilosa:latest
@@ -41,15 +38,12 @@ services:
         ports:
           - target: 10101
             published: 10101
-            protocol: tcp
             mode: host
           - target: 11101
             published: 11101
-            protocol: tcp
             mode: host
           - target: 15001
             published: 15001
-            protocol: tcp
             mode: host
 
 networks:
