@@ -35,7 +35,7 @@ services:
             placement:
                 max_replicas_per_node: 1
             endpoint_mode: dnsrr
-        entrypoint: ./entrypoint_worker.sh
+        entrypoint: ./entrypoint_workers.sh
         volumes:
             - /mnt:/opt/pilosa/data
         ports:
