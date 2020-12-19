@@ -1,21 +1,14 @@
 version: '3.8'
 
 services:
-    pilosa-coordinator:
+    pilosa-leader:
         image: pilosa/pilosa:latest
         networks:
         - pilosanetwork
         deploy:
             replicas: 1
             endpoint_mode: dnsrr
-        command: [
-            'server',
-            '--cluster.coordinator=true',
-            '--bind=0.0.0.0:10101',
-            '--gossip.advertise-port=15001',
-            '--gossip.port=11101',
-            '--data-dir=/opt/pilosa/data'
-        ]
+        entrypoint: ./entrypoint_leader.sh
         volumes:
             - /mnt:/opt/pilosa/data
         ports:
@@ -36,20 +29,13 @@ services:
         networks:
         - pilosanetwork
         depends_on:
-        - pilosa-coordinator
+        - pilosa-leader
         deploy:
             replicas: ${NUM_WORKERS}
             placement:
                 max_replicas_per_node: 1
             endpoint_mode: dnsrr
-        command: [
-            'server',
-            '--bind=0.0.0.0:10101',
-            '--gossip.advertise-port=15001',
-            '--gossip.port=11101',
-            '--gossip.seeds=pilosa-coordinator:11101,pilosa-workers:11101',
-            '--data-dir=/opt/pilosa/data'
-        ]
+        entrypoint: ./entrypoint_worker.sh
         volumes:
             - /mnt:/opt/pilosa/data
         ports:
