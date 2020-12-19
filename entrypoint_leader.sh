@@ -4,6 +4,6 @@
     --cluster.coordinator=true \
     --bind=0.0.0.0:10101 \
     --gossip.advertise-host=`hostname -i` \
-    --gossip.advertise-port=15001 \
+    --gossip.advertise-port=11101 \
     --gossip.port=11101 \
     --data-dir=/opt/pilosa/data

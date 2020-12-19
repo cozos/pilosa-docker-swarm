@@ -17,6 +17,6 @@ MY_HOSTNAME=`hostname -i`
     --bind=0.0.0.0:10101 \
     --gossip.seeds=pilosa-leader:11101 \
     --gossip.advertise-host=$MY_HOSTNAME \
-    --gossip.advertise-port=15001 \
+    --gossip.advertise-port=11101 \
     --gossip.port=11101 \
     --data-dir=/opt/pilosa/data
