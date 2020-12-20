@@ -3,6 +3,9 @@
 apk update
 apk add bind-tools
 
+# Wait for coordinator to spin up.
+sleep 20s
+
 MY_HOSTNAME=`hostname -i`
 
 # for NODE in $(dig +short pilosa-workers); do
