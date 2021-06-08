@@ -8,6 +8,9 @@ services:
         deploy:
             replicas: 1
             endpoint_mode: dnsrr
+            placement:
+                constraints:
+                    - "node.role==manager"
         entrypoint: ./entrypoint_leader.sh
         volumes:
             - /mnt:/opt/pilosa/data
@@ -31,6 +34,8 @@ services:
             replicas: ${NUM_WORKERS}
             placement:
                 max_replicas_per_node: 1
+                constraints:
+                    - "node.role!=manager"
             endpoint_mode: dnsrr
         entrypoint: ./entrypoint_workers.sh
         volumes:
